@@ -1,0 +1,9 @@
+.tooltip-green {
+    --bs-tooltip-bg: var(--bs-success);
+    --bs-tooltip-color: var(--bs-white);
+}
+
+.tooltip-red {
+    --bs-tooltip-bg: var(--bs-danger);
+    --bs-tooltip-color: var(--bs-white);
+}

@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block titulo %}
+    Detalles del autor
+    {{ autor.nombre }}
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>
+  Detalles del autor <b>{{ autor.nombre }}</b>
+  <a href="{% if autor.activo %}{% url 'app:listado' %}{% else %}{% url 'app:listado_inactivo' 'inactivo' %}{% endif %}" data-bs-toggle="tooltip" data-bs-title="Volver al listado">
+    <img src="{% static 'img/volver.png' %}" alt="Volver" width="32">
+  </a>
+</h1>
+<br>
+<div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 border-end-0">
+  <dl>
+    <dt>País de nacimiento</dt>
+    <dd>{{ autor.get_nacionalidad_display }}</dd>
+    <dt>Fecha de nacimiento</dt>
+    <dd>{{ autor.fecha_nacimiento|date:"j \d\e F \d\e Y" }}</dd>
+    {% if autor.fecha_fallecimiento %}
+    <dt>Fecha de fallecimiento</dt>
+    <dd>{{ autor.fecha_fallecimiento|date:"j \d\e F \d\e Y" }}</dd>
+    {% endif %}
+  </dl>
+</div>
+<br>
+<div class="p-3 mb-2 bg-body-secondary">
+  <h4>Otros datos en el sistema</h4>
+  <dl>
+    <dt>Activo?</dt>
+    <dd>{% if autor.activo %}
+      Sí
+    {% else %}
+      No
+    {% endif %}</dd>
+    <dt>Fecha de creación</dt>
+    <dd>{{ autor.fecha_creacion|date:"j \d\e F \d\e Y" }}</dd>
+    <dt>Fecha de modificación</dt>
+    <dd>{{ autor.fecha_modificacion|date:"j \d\e F \d\e Y" }}</dd>
+  </dl>
+</div>
+
+{% endblock contenido %}

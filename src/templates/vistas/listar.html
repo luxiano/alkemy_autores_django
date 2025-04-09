@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block titulo %}
+    Listado de Autores
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Listado de Autores
+    {% if inactivo %}
+        (Inactivos)
+    {% else %}
+        (Activos)
+    {% endif %}
+</h1>
+<br>
+<table class="table table-bordered table-striped">
+  <thead class="table-light">
+    <tr>
+      <th>Nombre</th>
+      <th>Nacionalidad</th>
+      <th>Fecha de Nacimiento</th>
+      <th>Fecha de Fallecimiento</th>
+      <th>Activo</th>
+      <th>Fecha de Creación</th>
+      <th>Fecha de Modificación</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for autor in autores %}
+    <tr>
+      <td><a href="{% url 'app:detalle_autor' autor.id %}">{{ autor.nombre }}</a></td>
+      <td>{{ autor.get_nacionalidad_display }}</td>
+      <td>{{ autor.fecha_nacimiento }}</td>
+      <td>{{ autor.fecha_fallecimiento }}</td>
+      <td class="text-center">
+        {% if autor.activo %}
+          <a href="{% url 'app:cambiar_estado' autor.id %}"><img src="{% static 'img/ok.png' %}" alt="Activo" width="20" data-bs-toggle="tooltip" data-bs-title="Cambiar estado a INACTIVO" data-bs-custom-class="tooltip-red"></a>
+        {% else %}
+        <a href="{% url 'app:cambiar_estado' autor.id %}"><img src="{% static 'img/no.png' %}" alt="Inactivo" width="20" data-bs-toggle="tooltip" data-bs-title="Cambiar estado a ACTIVO" data-bs-custom-class="tooltip-green"></a>
+        {% endif %}
+      </td>
+      <td>{{ autor.fecha_creacion }}</td>
+      <td>{{ autor.fecha_modificacion }}</td>
+      <td class="text-center">
+        <a href="{% url 'app:borrar_autor' autor.id %}" data-bs-toggle="tooltip" data-bs-title="SE BORRARÁ PERMANENTEMENTE" data-bs-custom-class="tooltip-red">
+          <img src="{% static 'img/borrar.png' %}" alt="Eliminar" width="32">
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock contenido %}
