@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block titulo %}
+    Mini proyecto "Autores" en Django
+{% endblock titulo %}
+
+{% block contenido %}
+<div class="col text-center">
+  <img src="{% static 'img/escritor.png' %}" class="img-fluid rounded-start" alt="Autores en Django" width="300">
+</div>
+<div class="col">
+  <h1>Proyecto "Autores" en Django</h1>
+  <p>Este es un proyecto para practicar lo visto hasta el momento en las clases de Django de Alkemy.</p>
+  <hr>
+  <h5>Desarrollador a Cargo</h5>
+  <p><strong>Nombre:</strong> Luciano Tropea</p>
+  <p><strong>Email:</strong> lucianotropea@gmail.com</p>
+  <p><strong>Rol:</strong> Desarrollador</p>
+</div>
+{% endblock contenido %}

@@ -8,6 +8,9 @@ from .models import Autor
 def index(request):
     return render(request, 'index.html')
 
+def home(request):
+    return render(request, 'vistas/home.html')
+
 def listado(request, inactivo=False):
     autores = None
 
