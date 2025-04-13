@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block titulo %}
+    Listado de {{titulo}} en formato JSON
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>
+    Listado de {{titulo}} en formato JSON 
+    <button type="button" class="btn btn-dark" id="copy-json">Copiar JSON</button>
+</h1>
+<br>
+<pre class="text-wrap mt-3" id="json">
+    <code>
+    {{ json }}
+    </code>
+</pre>
+<script>
+    const boton = document.getElementById('copy-json');
+    boton.addEventListener('click', () => {
+        const jsonText = document.getElementById('json').innerText.trim();
+        const origText = boton.innerText;
+        boton.innerText = '¡Copiado!';
+        boton.disabled = true;
+    
+        navigator.clipboard.writeText(jsonText).finally(() => {
+            setTimeout(() => {
+                boton.innerText = origText;
+                boton.disabled = false;
+            }, 2000); // 2 segundos
+        });
+    });
+</script>
+{% endblock contenido %}

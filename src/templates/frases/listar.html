@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block titulo %}
+Listado de Frases
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>
+    Listado de Frases
+    {% if todas and not visible %}
+    {% elif visible %}
+        (Activas)
+    {% else %}
+        (Inactivas)
+    {% endif %}
+</h1>
+<br>
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Frase</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Comentario</th>
+        <th scope="col">Fecha de la frase</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for frase in listado_frases %}
+      <tr>
+        <td>{{frase.frase}}</td>
+        <td><a href="{% url 'autores:detalle_autor' frase.autor.id %}">{{frase.autor.nombre}}</a></td>
+        <td>{{frase.comentarios}}</td>
+        <td>{{frase.fecha_frase}}</td>
+        <td class="text-center">
+            <a href="{% url 'frases:editar' frase.id %}" data-bs-toggle="tooltip" data-bs-title="Editar" class="text-decoration-none">
+                <img src="{% static 'img/pen-to-square-solid.svg' %}" alt="Editar" width="20">
+            </a>
+            <a href="{% url 'frases:borrar' frase.id %}" data-bs-toggle="tooltip" data-bs-title="Eliminar" data-bs-custom-class="tooltip-red" class="text-decoration-none">
+                <img src="{% static 'img/trash-solid.svg' %}" alt="Eliminar" width="20">
+            </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock contenido %}

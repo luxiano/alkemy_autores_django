@@ -21,13 +21,9 @@ class Autor(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"""Nombre: {self.nombre}.
-Nacionalidad: {self.get_nacionalidad_display()}.
-Fecha de nacimiento: {self.fecha_nacimiento}.
-Fecha de fallecimiento: {self.fecha_fallecimiento}.
-Activo: {self.activo}.
-Fecha de creación: {self.fecha_creacion}.
-Fecha de modificación: {self.fecha_modificacion}."""
+        return f"""{self.nombre}"""
 
     class Meta:
         ordering = ['nombre']
+        verbose_name = 'Autor'
+        verbose_name_plural = 'Autores'

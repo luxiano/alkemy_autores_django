@@ -9,7 +9,7 @@
 {% block contenido %}
 <h1>
   Detalles del autor <b>{{ autor.nombre }}</b>
-  <a href="{% if autor.activo %}{% url 'app:listado' %}{% else %}{% url 'app:listado_inactivo' 'inactivo' %}{% endif %}" data-bs-toggle="tooltip" data-bs-title="Volver al listado">
+  <a href="{% if autor.activo %}{% url 'autores:listado' %}{% else %}{% url 'autores:listado_inactivo' 'inactivo' %}{% endif %}" data-bs-toggle="tooltip" data-bs-title="Volver al listado">
     <img src="{% static 'img/volver.png' %}" alt="Volver" width="32">
   </a>
 </h1>
@@ -24,6 +24,14 @@
     <dt>Fecha de fallecimiento</dt>
     <dd>{{ autor.fecha_fallecimiento|date:"j \d\e F \d\e Y" }}</dd>
     {% endif %}
+    <dt>Cantidad de Frases guardadas</dt>
+    <dd>
+      {{ cantidad_frases }} 
+      {% if cantidad_frases > 0 %}
+      <a href="{% url 'frases:frases_por_autor' autor.id %}">(ir a frases)</a>
+      {% else %}
+      {% endif %}
+    </dd>
   </dl>
 </div>
 <br>

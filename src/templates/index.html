@@ -15,19 +15,52 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'app:home' %}"><img src="{% static 'img/escritor.png' %}" alt="Autor" width="32"></a>
+      <a class="navbar-brand" href="{% url 'autores:home' %}"><img src="{% static 'img/escritor.png' %}" alt="Autor" width="32"></a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'app:listado' %}">Listado activos</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Autores
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'autores:listado' %}">Listado activos</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'autores:listado_inactivo' 'inactivo' %}">Listado inactivos</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'autores:listado_json' %}">Listado en JSON</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'autores:crear' %}">Crear nuevo</a>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'app:listado_inactivo' 'inactivo' %}">Listado inactivos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'app:listado_json' %}">Listado en JSON</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Frases
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url 'frases:listado' %}">Listado</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'frases:listado_visibles' %}">Listado visibles</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'frases:listado_invisibles' %}">Listado no visibles</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'frases:frases_json' %}">Listado en JSON</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'frases:crear' %}">Crear nueva</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

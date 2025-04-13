@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block titulo %}
+    Listado de Autores
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Listado de Autores
+    {% if inactivo %}
+        (Inactivos)
+    {% else %}
+        (Activos)
+    {% endif %}
+</h1>
+<br>
+<table class="table table-bordered table-striped">
+  <thead class="table-light">
+    <tr>
+      <th>Nombre</th>
+      <th>Nacionalidad</th>
+      <th>Fecha de Nacimiento</th>
+      <th>Fecha de Fallecimiento</th>
+      <th>Activo</th>
+      <th>Fecha de Creación</th>
+      <th>Fecha de Modificación</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for autor in autores %}
+    <tr>
+      <td><a href="{% url 'autores:detalle_autor' autor.id %}">{{ autor.nombre }}</a></td>
+      <td>{{ autor.get_nacionalidad_display }}</td>
+      <td>{{ autor.fecha_nacimiento }}</td>
+      <td>
+        {% if autor.fecha_fallecimiento %}
+          {{ autor.fecha_fallecimiento }}
+        {% else %}
+          <span class="text-muted">No disponible</span>
+        {% endif %}
+      </td>
+      <td class="text-center">
+        {% if autor.activo %}
+          <a href="{% url 'autores:cambiar_estado' autor.id %}">
+            <img src="{% static 'img/circle-check-solid.svg' %}" alt="Activo" width="20" data-bs-toggle="tooltip" data-bs-title="Cambiar estado a INACTIVO" data-bs-custom-class="tooltip-red">
+          </a>
+        {% else %}
+        <a href="{% url 'autores:cambiar_estado' autor.id %}">
+          <img src="{% static 'img/circle-xmark-solid.svg' %}" alt="Inactivo" width="20" data-bs-toggle="tooltip" data-bs-title="Cambiar estado a ACTIVO" data-bs-custom-class="tooltip-green">
+        </a>
+        {% endif %}
+      </td>
+      <td>{{ autor.fecha_creacion }}</td>
+      <td>{{ autor.fecha_modificacion }}</td>
+      <td class="text-center">
+        <a href="{% url 'frases:frases_por_autor' autor.id %}" data-bs-toggle="tooltip" data-bs-title="Ver Frases" class="text-decoration-none">
+          <img src="{% static 'img/list-solid.svg' %}" alt="Ver Frases" width="20">
+        </a>
+        <a href="{% url 'autores:editar' autor.id %}" data-bs-toggle="tooltip" data-bs-title="Editar" class="text-decoration-none">
+          <img src="{% static 'img/pen-to-square-solid.svg' %}" alt="Editar" width="20">
+        </a>
+        <a href="{% url 'autores:borrar_autor' autor.id %}" data-bs-toggle="tooltip" data-bs-title="SE BORRARÁ PERMANENTEMENTE" data-bs-custom-class="tooltip-red">
+          <img src="{% static 'img/trash-solid.svg' %}" alt="Eliminar" width="20">
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock contenido %}
