@@ -3,6 +3,8 @@ from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .models import Autor
 from frases.models import Frases
 
@@ -23,6 +25,7 @@ def listado(request, inactivo=False):
     return render(request, 'autores/listar.html', 
                   {'autores': autores, 'inactivo': inactivo})
 
+@login_required
 def listado_json(request):
     autores = get_list_or_404(Autor)
     autores_json = serializers.serialize('json', autores)
@@ -35,11 +38,13 @@ def detalle_autor(request, id):
     cantidad_frases = Frases.objects.filter(autor=autor).count()
     return render(request, 'autores/detalle.html', {'autor': autor, 'cantidad_frases': cantidad_frases})
 
+@login_required
 def borrar_autor(request, id):
     autor = get_object_or_404(Autor, id=id)
     autor.delete()
     return HttpResponseRedirect(reverse('autores:listado'))
 
+@login_required
 def cambiar_estado(request, id):
     autor = get_object_or_404(Autor, id=id)
     autor.activo = not autor.activo
@@ -47,7 +52,7 @@ def cambiar_estado(request, id):
     return HttpResponseRedirect(reverse('autores:listado'))
 
 
-class AutorCreateView(CreateView):
+class AutorCreateView(LoginRequiredMixin, CreateView):
     model = Autor
     template_name = 'editar.html'
     fields = '__all__'
@@ -59,7 +64,7 @@ class AutorCreateView(CreateView):
         return context
 
 
-class AutorUpdateView(UpdateView):
+class AutorUpdateView(LoginRequiredMixin, UpdateView):
     model = Autor
     template_name = 'editar.html'
     fields = '__all__'

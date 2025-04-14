@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+
+{% block titulo %}
+Iniciar sesión
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        {% if form.errors %}
+        <p>Usuario y/o contraseña incorrectos, pruebe de nuevo</p>
+        {% endif %}
+        
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Su cuenta no tiene acceso a esa página. Use otro usuario y constraseña.</p>
+            {% else %}
+            <h1>Necesita iniciar sesión para acceder a esta sección</h1>
+            <p>Por favor, ingrese su usuario y contraseña.</p>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'usuarios:login' %}" id="login-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="" class="form-label">{{ form.username.label_tag }}</label>
+            {{ form.username }}
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">{{ form.password.label_tag }}</label>
+            {{ form.password }}
+        </div>
+
+        <input type="submit" value="Autenticarse" class="btn btn-primary">
+        <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('login-form').querySelectorAll('div').forEach(div => {
+            div.classList.add('mb-4');
+        });
+        document.querySelectorAll('input[type=text], input[type=password]').forEach(input => {
+            input.classList.add('form-control');
+        });
+        document.querySelectorAll('label').forEach(label => {
+            label.classList.add('form-label');
+        });
+    });
+</script>
+{% endblock contenido %}

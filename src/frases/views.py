@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core import serializers
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from .models import Frases
 from autores.models import Autor
@@ -27,7 +29,7 @@ class FrasesListView(ListView):
         return context
     
 
-class FrasesCreateView(CreateView):
+class FrasesCreateView(LoginRequiredMixin, CreateView):
     model = Frases
     template_name = 'editar.html'
     #fields = ['autor', 'frase', 'comentarios', 'fecha_frase', 'visible']
@@ -53,7 +55,7 @@ class FrasesCreateView(CreateView):
         return context
 
 
-class FrasesUpdateView(UpdateView):
+class FrasesUpdateView(LoginRequiredMixin, UpdateView):
     model = Frases
     template_name = 'editar.html'
     fields = '__all__'
@@ -70,7 +72,7 @@ class FrasesUpdateView(UpdateView):
         context["titulo_crear"] = "Modificar frase"
         return context
     
-class FrasesDeleteView(DeleteView):
+class FrasesDeleteView(LoginRequiredMixin, DeleteView):
     model = Frases
     template_name = 'frases/borrar.html'
     success_url = reverse_lazy('frases:listado')
@@ -81,6 +83,7 @@ class FrasesDeleteView(DeleteView):
         return context
 
 
+@login_required
 def frases_json(request):
     frases = get_list_or_404(Frases.objects.filter(visible=True))
     frases_json = serializers.serialize('json', frases)
