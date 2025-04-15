@@ -68,6 +68,8 @@
           {% csrf_token %}
           <input type="submit" value="Logout" class="btn btn-danger">
         </form>
+        {% else %}
+        <a class="btn btn-light" href="{% url 'usuarios:login' %}" role="button">Login</a>
         {% endif %}
       </div>
     </div>
