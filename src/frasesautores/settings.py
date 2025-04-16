@@ -37,10 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # aplicaciones propias
     'frasesautores',
     'autores',
     'frases',
     'usuarios',
+    'api_base',
+    # aplicaciones de terceros
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +141,14 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGOUT_REDIRECT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
+
+
+# Configuración de Django REST Framework
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
