@@ -12,9 +12,11 @@ from rest_framework import routers
 from .views import AutoresViewSet, FrasesViewSet
 
 # Crear un router y registrar el viewset
+# Tuve que registar basename para quitar 'queryset = Frases.objects.all()' de 
+# FrasesViewSet. Funcionaba, pero se ve mejor así
 router = routers.SimpleRouter()
-router.register(r'autores', AutoresViewSet)
-router.register(r'frases', FrasesViewSet)
+router.register(r'autores', AutoresViewSet, basename='autores')
+router.register(r'frases', FrasesViewSet, basename='frases')
 
 app_name = 'api_base'
 

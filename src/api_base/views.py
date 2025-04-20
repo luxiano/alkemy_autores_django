@@ -19,13 +19,12 @@ class AutoresViewSet(viewsets.ModelViewSet):
 
 
 class FrasesViewSet(viewsets.ModelViewSet):
-    queryset = Frases.objects.all()
+    serializer_class = FrasesSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly, ]
+
     def get_queryset(self):
         if self.kwargs.get('model') == 'autor_frases':
             autor_id = self.kwargs.get('pk')
             return Frases.objects.filter(autor=autor_id)
         else:
             return Frases.objects.all()
-
-    serializer_class = FrasesSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly, ]
