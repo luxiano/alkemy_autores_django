@@ -1,30 +1,25 @@
-from django.urls import path
-from .views import (
-    # AutorListAPIView,
-    # AutorRetrieveAPIView,
-    AutoresFrasesListRetrieveAPIView,
-)
+# Aclaración sobre este archivo:
+# En el proyecto de ejemplo de Artículos, todo esto está en el archivo
+# urls.py del proyecto, pero en este caso lo pongo aquí para:
+# 1) Separar las urls de la API del resto de la 
+# aplicación (para evitar conflictos con 'frases/')
+# 2) Mantener la modularidad
+# Entonces, mantengo que tengo que incluir '/api/' en la url
+
+from django.urls import path, include
+# Router para API
+from rest_framework import routers
+from .views import AutoresViewSet, FrasesViewSet
+
+# Crear un router y registrar el viewset
+router = routers.SimpleRouter()
+router.register(r'autores', AutoresViewSet)
+router.register(r'frases', FrasesViewSet)
 
 app_name = 'api_base'
 
 urlpatterns = [
-    # Hacemos default a la vista de listar autores, desde la raíz
-    path('', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'autor'}, name='api_listar'),
-    path('<int:pk>/', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'autor'}, name='api_detalle'),
-    path('<int:pk>/frases/', AutoresFrasesListRetrieveAPIView.as_view(),
+    path('', include(router.urls)),  # Incluir las rutas del router
+    path('autores/<int:pk>/frases/', FrasesViewSet.as_view({'get': 'list'}),
          {'model': 'autor_frases'}, name='api_autor_frases'),
-    # Pero también le damos su ruta propia
-    path('autores/', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'autor'}, name='api_listar'),
-    path('autores/<int:pk>/', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'autor'}, name='api_detalle'),
-    path('autores/<int:pk>/frases/', AutoresFrasesListRetrieveAPIView.as_view(),
-         {'model': 'autor_frases'}, name='api_autor_frases'),
-    # Frases
-    path('frases/', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'frases'}, name='api_listar'),
-    path('frases/<int:pk>/', AutoresFrasesListRetrieveAPIView.as_view(), 
-         {'model': 'frases'}, name='api_detalle'),
 ]
